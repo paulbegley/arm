@@ -57,8 +57,7 @@
         "installLampLinuxScriptFileName": "installLampLinux.sh"
     },
   "resources": [
-    {
-      "comments": "Generalized from resource: '/subscriptions/50455ae4-c3b0-4fc9-ab2e-425cfec81f46/resourceGroups/rg-backup-poc/providers/Microsoft.Compute/virtualMachines/vm-backup-poc'.",
+    {      
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('vm').machine[0].name]",
       "apiVersion": "2015-06-15",
@@ -131,8 +130,7 @@
 
       ]
     },
-    {
-      "comments": "Generalized from resource: '/subscriptions/50455ae4-c3b0-4fc9-ab2e-425cfec81f46/resourceGroups/rg-backup-poc/providers/Microsoft.Compute/virtualMachines/vm-backup-poc'.",
+    {      
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('vm').machine[1].name]",
       "apiVersion": "2015-06-15",
