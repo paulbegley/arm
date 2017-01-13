@@ -58,8 +58,7 @@
     "variables": {
     },
   "resources": [
-    {
-      "comments": "Generalized from resource: '/subscriptions/50455ae4-c3b0-4fc9-ab2e-425cfec81f46/resourceGroups/rg-backup-poc/providers/Microsoft.Network/networkInterfaces/vm-backup-poc2882'.",
+    {      
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[parameters('nic').instance[0].name]",
       "apiVersion": "2016-03-30",
@@ -93,8 +92,7 @@
 
       ]
     },
-    {
-      "comments": "Generalized from resource: '/subscriptions/50455ae4-c3b0-4fc9-ab2e-425cfec81f46/resourceGroups/rg-backup-poc/providers/Microsoft.Network/networkInterfaces/vm-backup-poc2882'.",
+    {     
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[parameters('nic').instance[1].name]",
       "apiVersion": "2016-03-30",

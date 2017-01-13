@@ -10,8 +10,7 @@
     "variables": {
     },
   "resources": [
-    {
-      "comments": "Generalized from resource: '/subscriptions/50455ae4-c3b0-4fc9-ab2e-425cfec81f46/resourceGroups/rg-backup-poc/providers/Microsoft.Network/networkSecurityGroups/vm-backup-poc-nsg'.",
+    {      
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[parameters('nsg').name]",
       "apiVersion": "2016-03-30",
