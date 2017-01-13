@@ -58,9 +58,13 @@
     "variables": {
     },
   "resources": [
-    {      
+    {
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[parameters('nic').instance[0].name]",
+      "copy": {
+        "name": "niccount",
+        "count": "[length(parameters('nic').instance)]"
+      },
+      "name": "[parameters('nic').instance[copyIndex()].name]",
       "apiVersion": "2016-03-30",
       "location": "westeurope",
       "properties": {
@@ -71,7 +75,7 @@
               "privateIPAddress": "10.1.0.5",
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('vm').machine[0].pip)]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('vm').machine[copyIndex()].pip)]"
               },
               "subnet": {
                 "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('network').name), '/subnets/', parameters('network').subnet[0].name)]"
@@ -91,7 +95,7 @@
       "dependsOn": [
 
       ]
-    },
+    }/*,
     {     
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[parameters('nic').instance[1].name]",
@@ -125,7 +129,7 @@
       "dependsOn": [
 
       ]
-    }
+    }*/
   ],
     "outputs": {
     }
