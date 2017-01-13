@@ -95,41 +95,7 @@
       "dependsOn": [
 
       ]
-    }/*,
-    {     
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[parameters('nic').instance[1].name]",
-      "apiVersion": "2016-03-30",
-      "location": "westeurope",
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAddress": "10.1.0.4",
-              "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('vm').machine[1].pip)]"
-              },
-              "subnet": {
-                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('network').name), '/subnets/', parameters('network').subnet[0].name)]"
-              }
-            }
-          }
-        ],
-        "dnsSettings": {
-          "dnsServers": []
-        },
-        "enableIPForwarding": false,
-        "networkSecurityGroup": {
-          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsg').name)]"
-        }
-      },
-      "resources": [],
-      "dependsOn": [
-
-      ]
-    }*/
+    }
   ],
     "outputs": {
     }

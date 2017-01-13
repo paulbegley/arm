@@ -57,9 +57,13 @@
         "installLampLinuxScriptFileName": "installLampLinux.sh"
     },
   "resources": [
-    {      
+    {
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('vm').machine[0].name]",
+      "copy": {
+        "name": "vmcount",
+        "count": "[length(parameters('vm').machine)]"
+      },
+      "name": "[parameters('vm').machine[copyIndex()].name]",
       "apiVersion": "2015-06-15",
       "location": "westeurope",
       "properties": {
@@ -74,17 +78,17 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[parameters('vm').machine[0].name]",
+            "name": "[parameters('vm').machine[copyIndex()].name]",
             "createOption": "FromImage",
             "vhd": {
-              "uri": "[concat('https', '://', parameters('sa').instance[0].name, '.blob.core.windows.net', concat('/vhds/', parameters('vm').machine[0].name,'20161223102816.vhd'))]"
+              "uri": "[concat('https', '://', parameters('sa').instance[copyIndex()].name, '.blob.core.windows.net', concat('/vhds/', parameters('vm').machine[copyIndex()].name,'20161223102816.vhd'))]"
             },
             "caching": "ReadWrite"
           },
           "dataDisks": []
         },
         "osProfile": {
-          "computerName": "[parameters('vm').machine[0].name]",
+          "computerName": "[parameters('vm').machine[copyIndex()].name]",
           "adminUsername": "azureuser",
           "linuxConfiguration": {
             "disablePasswordAuthentication": false
@@ -95,7 +99,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('nic').instance[0].name)]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('nic').instance[copyIndex()].name)]"
             }
           ]
         }
@@ -107,7 +111,7 @@
           "location": "westeurope",
           "apiVersion": "2015-06-15",
           "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vm').machine[0].name)]"
+            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vm').machine[copyIndex()].name)]"
           ],
           "tags": {
             "displayName": "installLampLinux"
@@ -121,80 +125,7 @@
               "fileUris": [
                 "[concat(parameters('artifactsLocation'), '/', variables('installLampLinuxScriptFolder'), '/', variables('installLampLinuxScriptFileName'), parameters('artifactsLocationSasToken'))]"
               ],
-              "commandToExecute": "[concat('sh ', variables('installLampLinuxScriptFileName'), ' Azureuser!!!')]"
-            }
-          }
-        }
-      ],
-      "dependsOn": [
-
-      ]
-    },
-    {      
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[parameters('vm').machine[1].name]",
-      "apiVersion": "2015-06-15",
-      "location": "westeurope",
-      "properties": {
-        "hardwareProfile": {
-          "vmSize": "Standard_DS1_v2"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "Canonical",
-            "offer": "UbuntuServer",
-            "sku": "12.04.5-LTS",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "[parameters('vm').machine[1].name]",
-            "createOption": "FromImage",
-            "vhd": {
-              "uri": "[concat('https', '://', parameters('sa').instance[1].name, '.blob.core.windows.net', concat('/vhds/', parameters('vm').machine[1].name,'20161223102816.vhd'))]"
-            },
-            "caching": "ReadWrite"
-          },
-          "dataDisks": []
-        },
-        "osProfile": {
-          "computerName": "[parameters('vm').machine[1].name]",
-          "adminUsername": "azureuser",
-          "linuxConfiguration": {
-            "disablePasswordAuthentication": false
-          },
-          "secrets": [],
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('nic').instance[1].name)]"
-            }
-          ]
-        }
-      },
-      "resources": [
-        {
-          "name": "installLampLinux",
-          "type": "extensions",
-          "location": "westeurope",
-          "apiVersion": "2015-06-15",
-          "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vm').machine[1].name)]"
-          ],
-          "tags": {
-            "displayName": "installLampLinux"
-          },
-          "properties": {
-            "publisher": "Microsoft.OSTCExtensions",
-            "type": "CustomScriptForLinux",
-            "typeHandlerVersion": "1.4",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "fileUris": [
-                "[concat(parameters('artifactsLocation'), '/', variables('installLampLinuxScriptFolder'), '/', variables('installLampLinuxScriptFileName'), parameters('artifactsLocationSasToken'))]"
-              ],
-              "commandToExecute": "[concat('sh ', variables('installLampLinuxScriptFileName'), ' Azureuser!!!')]"
+              "commandToExecute": "[concat('sh ', variables('installLampLinuxScriptFileName'), ' ', parameters('adminPassword'))]"
             }
           }
         }
